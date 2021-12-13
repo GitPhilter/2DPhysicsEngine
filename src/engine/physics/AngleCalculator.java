@@ -25,17 +25,10 @@ public final class AngleCalculator {
         Direction rotatedDirection = getRotationByDegreesClockwise(direction, result);
         if(result == 360.0) return 0.0;
         if(result == 0.0) return 0.0;
-        //System.out.println("direction: " + direction);
-        //System.out.println("rotatedDirection: " + rotatedDirection);
-        //System.out.println("referenceDirection: " + referenceDirection);
         if(!twoDirectionsAreIdentical(rotatedDirection, referenceDirection)){
-            //System.out.println("The two directions are considered identical!");
-            //System.out.println("returning: 360 - " + result);
             return 360 - result;
-            //return result;
         }
         return result;
-        //return result + 180;
     }
 
     public static boolean twoDirectionsAreIdentical(Direction a, Direction b){
@@ -45,7 +38,6 @@ public final class AngleCalculator {
         double yDiff = Math.abs(a.getY() - b.getY());
         if(yDiff < clampMargin) yDiff = 0.0;
         if(xDiff == 0.0 && yDiff == 0.0) return true;
-        //System.out.println(a + " & " + b + " are NOT identical!");
         return false;
     }
 
@@ -56,12 +48,5 @@ public final class AngleCalculator {
         return new Direction(x, y);
     }
 
-    // unsure if this is working
-    public static Direction getRotationByDegreesCounterclockwise(Direction direction, double degrees){
-        degrees = degrees / 180 * Math.PI;
-        double x = Math.sin(degrees) * direction.getX() - Math.cos(degrees) * direction.getY();
-        double y = Math.cos(degrees) * direction.getX() + Math.sin(degrees) * direction.getY();
-        return new Direction(x, y);
-    }
 
 }

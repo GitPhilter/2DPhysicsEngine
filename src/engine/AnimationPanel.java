@@ -13,14 +13,12 @@ import java.util.ArrayList;
 
 public class AnimationPanel extends JPanel implements ActionListener {
     PhysicsEngine2D engine;
-    double previousExecutionTime;
     Timer timer;
 
     public AnimationPanel(PhysicsEngine2D engine){
         this.engine = engine;
         setSize(engine.getWidth(),engine.getHeight());
         setVisible(true);
-        previousExecutionTime = 0;
         // delay: 17 ~ 60 fps, 42 ~ 24 fps
         timer = new Timer(17, this);
         timer.start();
@@ -30,14 +28,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        double time = System.nanoTime();
-        /*
-        if(previousExecutionTime != 0){
-            double timeBetweenAnimations = time - previousExecutionTime;
-            System.out.println("-> Time between animations: " + timeBetweenAnimations + " ns");
-        }
-         */
-        previousExecutionTime = time;
         // draw objects
         for(PhysicalObject po : engine.getObjects()){
             CircularObject co = (CircularObject) po;
@@ -57,7 +47,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
         }
         // draw collision vectors
         ArrayList<PhysicalObjectPair> collisionPairs = engine.getPhysicsManager().getCurrentCollisionPairs();
-        //System.out.println("Number of collision pairs: " + collisionPairs.size());
         for(PhysicalObjectPair pair : collisionPairs) {
             g2d.setColor(Color.RED);
             g2d.drawLine((int) Math.round(pair.getA().getPosition().getX()), (int) Math.round(pair.getA().getPosition().getY()),

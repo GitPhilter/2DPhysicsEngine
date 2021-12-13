@@ -50,9 +50,8 @@ public class PhysicsManager_1 extends PhysicsManager {
         CircularObject thisObject = (CircularObject) object;
         for(PhysicalObject po : engine.getObjects()){
             CircularObject co = (CircularObject) po;
-            if(co != (CircularObject) object){
+            if(co != object){
                 if(newPosition.getDistance(co.getPosition()) < thisObject.getRadius() + co.getRadius()){
-                    //System.out.println(thisObject.getName() + " & " + co.getName() + " are touching!");
                     double correctionAmount = Math.abs(newPosition.getDistance(co.getPosition()) - (thisObject.getRadius() + co.getRadius()));
                     Direction correctionDirection = co.getPosition().getDirection(thisObject.getPosition());
                     double newX = newPosition.getX() + correctionAmount * correctionDirection.getX();
