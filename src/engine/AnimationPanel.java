@@ -7,21 +7,18 @@ import engine.physics.Direction;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class AnimationPanel extends JPanel{
     PhysicsEngine2D engine;
-    Timer timer;
+
 
     public AnimationPanel(PhysicsEngine2D engine){
         this.engine = engine;
         setSize(engine.getWidth(),engine.getHeight());
         setVisible(true);
         // delay: 17 ~ 60 fps, 42 ~ 24 fps
-        timer = new Timer(17, this);
-        timer.start();
+
     }
 
     @Override
@@ -56,9 +53,5 @@ public class AnimationPanel extends JPanel implements ActionListener {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        engine.getPhysicsManager().moveObjects(engine);
-        repaint();
-    }
+
 }
