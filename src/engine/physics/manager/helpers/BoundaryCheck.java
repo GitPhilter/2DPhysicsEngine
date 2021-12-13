@@ -5,7 +5,7 @@ import engine.objects.CircularObject;
 import engine.objects.PhysicalObject;
 import engine.physics.Position;
 
-public final class BoundaryCheck {
+public class BoundaryCheck {
 
     public static Position boundaryCollisionCheck(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
         boolean everythingChecked = false;
@@ -36,7 +36,7 @@ public final class BoundaryCheck {
         return newPosition;
     }
 
-    private static Position checkSouthernBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
+    protected static Position checkSouthernBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
         CircularObject co = (CircularObject) object;
         if(newPosition.getY() > engine.getHeight() - co.getRadius()){
             double yDelta = Math.abs((engine.getHeight() - co.getRadius()) - newPosition.getY());
@@ -55,7 +55,7 @@ public final class BoundaryCheck {
         return newPosition;
     }
 
-    private static Position checkNorthernBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
+    protected static Position checkNorthernBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
         CircularObject co = (CircularObject) object;
         if(newPosition.getY() < co.getRadius()){
             double yDelta = Math.abs((co.getRadius()) - newPosition.getY());
@@ -75,7 +75,7 @@ public final class BoundaryCheck {
         return newPosition;
     }
 
-    private static Position checkWesternBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
+    protected static Position checkWesternBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
         CircularObject co = (CircularObject) object;
         if(newPosition.getX() < co.getRadius()){
             double xDelta = Math.abs((co.getRadius()) - newPosition.getX());
@@ -94,7 +94,7 @@ public final class BoundaryCheck {
         return newPosition;
     }
 
-    private static Position checkEasternBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
+    protected static Position checkEasternBorderCollision(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
         CircularObject co = (CircularObject) object;
         if(newPosition.getX() > engine.getWidth() - co.getRadius()){
             double xDelta = Math.abs((engine.getWidth() - co.getRadius()) - newPosition.getX());

@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class EngineFrame extends JFrame {
-    AnimationPanel animationPanel;
+    protected AnimationPanel animationPanel;
+
+    public EngineFrame(){
+        //
+    }
 
     public EngineFrame(PhysicsEngine2D engine){
         setSize(engine.getWidth(), engine.getHeight());

@@ -7,10 +7,16 @@ import engine.physics.Direction;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class AnimationPanel extends JPanel{
-    PhysicsEngine2D engine;
+    protected PhysicsEngine2D engine;
+    protected BufferedImage backgroundImage;
+
+    public AnimationPanel(){
+        //
+    }
 
 
     public AnimationPanel(PhysicsEngine2D engine){
@@ -21,10 +27,22 @@ public class AnimationPanel extends JPanel{
 
     }
 
+    protected void setBackgroundImage(){
+        //System.out.println("Setting background image!");
+        backgroundImage = new BufferedImage(engine.getWidth(), engine.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g = backgroundImage.getGraphics();
+        // use g to draw to the background image
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0, engine.getWidth(), engine.getHeight());
+    }
+
     @Override
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+        //
+        //System.out.println("painting background image!");
+        g2d.drawImage(backgroundImage, 0,0, backgroundImage.getWidth(), backgroundImage.getHeight(), null);
         // draw objects
         for(PhysicalObject po : engine.getObjects()){
             CircularObject co = (CircularObject) po;

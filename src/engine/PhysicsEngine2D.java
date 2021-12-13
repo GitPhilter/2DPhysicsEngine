@@ -14,15 +14,22 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PhysicsEngine2D implements ActionListener {
-    private EngineFrame engineFrame;
-    ArrayList<PhysicalObject> objects;
-    PhysicsManager physicsManager = new PhysicsManager_2();
-    final int width = 800;
-    final int height = 600;
-    private Timer timer;
+    protected EngineFrame engineFrame;
+    protected ArrayList<PhysicalObject> objects;
+    protected PhysicsManager physicsManager;
+    protected int width;
+    protected int height;
+    protected Timer timer;
 
     public PhysicsEngine2D(){
+        //
+    }
+
+    public PhysicsEngine2D(int width, int height){
+        this.width = width;
+        this.height = height;
         objects = new ArrayList<>();
+        physicsManager = new PhysicsManager_2();
         engineFrame = new EngineFrame(this);
     }
 
