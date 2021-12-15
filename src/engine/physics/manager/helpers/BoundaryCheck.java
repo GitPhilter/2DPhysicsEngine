@@ -71,7 +71,6 @@ public class BoundaryCheck {
             double newYDir = co.getYSpeed() * -1.0;
             co.setYSpeed(newYDir);
         }
-
         return newPosition;
     }
 

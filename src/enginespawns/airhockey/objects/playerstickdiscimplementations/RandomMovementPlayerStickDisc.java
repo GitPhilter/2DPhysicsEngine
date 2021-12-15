@@ -13,7 +13,7 @@ public class RandomMovementPlayerStickDisc extends PlayerStickDisc {
 
     @Override
     public void tick(){
-        System.out.println("RandomMovementPlayerStickDisc '" + name + "'.tick()");
+        //System.out.println("RandomMovementPlayerStickDisc '" + name + "'.tick()");
         xAcceleration = Math.random() * maxTotalAcceleration - (maxTotalAcceleration / 2.0);
         yAcceleration = Math.random() * maxTotalAcceleration - (maxTotalAcceleration / 2.0);
         double totalLengthOfAccelerationVector = Math.sqrt(xAcceleration * xAcceleration + yAcceleration * yAcceleration);
@@ -22,7 +22,7 @@ public class RandomMovementPlayerStickDisc extends PlayerStickDisc {
             xAcceleration = xAcceleration / divisor;
             yAcceleration = yAcceleration / divisor;
         }
-        System.out.println("xAcceleration set to:" + xAcceleration + ", yAcceleration set to: " + yAcceleration);
+        //System.out.println("xAcceleration set to:" + xAcceleration + ", yAcceleration set to: " + yAcceleration);
         applyAcceleration();
     }
 }

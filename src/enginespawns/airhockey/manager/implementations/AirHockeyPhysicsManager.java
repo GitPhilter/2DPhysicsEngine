@@ -19,7 +19,6 @@ public class AirHockeyPhysicsManager extends PhysicsManager{
     }
 
     public void moveObjects(PhysicsEngine2D engine){
-        //System.out.println("AirHockeyPhysicsManager.moveObjects()");
         currentCollisionPairs.clear();
         for(PhysicalObject po : engine.getObjects()){
             moveObject(po, engine);
@@ -77,9 +76,6 @@ public class AirHockeyPhysicsManager extends PhysicsManager{
                     // calculate basic parameters
                     double mass_1 = thisObject.getMass();
                     double mass_2 = co.getMass();
-                    double phi_1 = AngleCalculator.getAngleFromDirection(thisObject.getDirectionVector());
-                    double phi_2 = AngleCalculator.getAngleFromDirection(co.getDirectionVector());
-                    System.out.println("The movement angles are: phi1=" + phi_1 + ", phi2=" + phi_2);
                     Direction collisionDirection = co.getPosition().getDirection(thisObject.getPosition());
                     // compute new directional "speeds"
                     // thisObject

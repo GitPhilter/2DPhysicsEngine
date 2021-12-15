@@ -19,18 +19,24 @@ public class PhysicsEngine2D implements ActionListener {
     protected PhysicsManager physicsManager;
     protected int width;
     protected int height;
-    protected Timer timer;
+    protected boolean isVisible;
+    protected boolean running = false;
 
     public PhysicsEngine2D(){
         //
     }
 
-    public PhysicsEngine2D(int width, int height){
+    public PhysicsEngine2D(int width, int height, boolean isVisible){
         this.width = width;
         this.height = height;
+        this.isVisible = isVisible;
         objects = new ArrayList<>();
         physicsManager = new PhysicsManager_2();
-        engineFrame = new EngineFrame(this);
+        if(isVisible){
+            engineFrame = new EngineFrame(this);
+        } else {
+            engineFrame = null;
+        }
     }
 
     public void addObject(PhysicalObject object){
@@ -43,17 +49,36 @@ public class PhysicsEngine2D implements ActionListener {
 
     public void tick(){
         physicsManager.moveObjects(this);
-        engineFrame.repaint();
+        if(engineFrame != null){
+            engineFrame.repaint();
+        }
     }
 
-    public void start(){
-        start(17);
+    public void run(){
+        running = true;
+        int fps = 60;
+        int nsPerFrame = (int)Math.round(1000000000.0 / fps);
+
+        while(running){
+            double start = System.nanoTime();
+            // actual computational steps
+            tick();
+            //
+            if(isVisible){
+                engineFrame.repaint();
+                double timePassed = System.nanoTime() - start;
+                if(timePassed < nsPerFrame){
+                    try {
+                        Thread.sleep((long)((nsPerFrame - timePassed) / (double)1000000));
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
     }
 
-    public void start(int msPerFrame){
-        timer = new Timer(msPerFrame, this);
-        timer.start();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

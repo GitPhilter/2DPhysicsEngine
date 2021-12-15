@@ -16,7 +16,6 @@ import javax.sound.midi.SysexMessage;
 public class AirHockeyBoundaryCheck extends BoundaryCheck{
 
     public static Position boundaryCollisionCheck(PhysicalObject object, Position newPosition, PhysicsEngine2D engine){
-        //System.out.println("AirHockeyBoundaryCollisionCheck.boundaryCollisionCheck()");
         boolean everythingChecked = false;
         int numberOfIterations = 0;
         int maxNumberOfIterations = 3;
@@ -121,25 +120,17 @@ public class AirHockeyBoundaryCheck extends BoundaryCheck{
         double xDistanceTravelled = engine.getWidth() - oldX;
         double yGoalLineIntersection = oldY + (object.getYSpeed()/ object.getXSpeed()) * xDistanceTravelled;
         double xGoalLineIntersection = engine.getWidth();
-        Position goalLinePuckPosition = new Position(xGoalLineIntersection, yGoalLineIntersection);
         Position upperPostPosition = new Position(engine.getWidth(), engine.getHeight() * (1.0/4.0));
         Position lowerPostPosition = new Position(engine.getWidth(), engine.getHeight() * (3.0/4.0));
-        //System.out.println("oldPosition: " + object.getPosition());
-        //System.out.println("goalLineIntersectionPosition: " + goalLinePuckPosition);
-        //System.out.println("upperPostPosition: " + upperPostPosition);
-        //System.out.println("lowerPostPosition: " + lowerPostPosition);
         boolean isBehindGoalLineAlready = false;
         if(oldX > engine.getWidth()) isBehindGoalLineAlready = true;
         if(!isBehindGoalLineAlready){
             if(oldY > lowerPostPosition.getY() - ((Puck) object).getRadius() &&
                     newPosition.getY() > lowerPostPosition.getY() - ((Puck) object).getRadius()){
-                System.out.println("[RightGoal:]Puck is touching the lower post or above!");
                 return true;
             }
             if(oldY < upperPostPosition.getY() + ((Puck) object).getRadius() &&
                     newPosition.getY() < upperPostPosition.getY() + ((Puck) object).getRadius()){
-                //System.out.println("oldY: " + oldY + ", newY: " + newPosition.getY() + " upperPostY: " + upperPostPosition.getY());
-                System.out.println("[RightGoal:]Puck is touching the upper post or above!");
                 return true;
             }
         }
@@ -153,14 +144,12 @@ public class AirHockeyBoundaryCheck extends BoundaryCheck{
             }
             double newX = newPosition.getX() + xDelta;
             double newY = newPosition.getY() + yDelta;
-            //newPosition = new Position(newX, newY);
             newPosition.setX(newX);
             newPosition.setY(newY);
             // direction
             // x stays the same
             double newYDir = object.getYSpeed() * -1.0;
             object.setYSpeed(newYDir);
-            System.out.println("[RightGoal:]I am touching the upper inside of the goal!");
             return false;
         }
         // lower
@@ -179,15 +168,12 @@ public class AirHockeyBoundaryCheck extends BoundaryCheck{
             // x stays the same
             double newYDir = object.getYSpeed() * -1.0;
             object.setYSpeed(newYDir);
-            System.out.println("[RightGoal:]I am touching the lower inside of the goal!");
             return false;
         }
         if(newPosition.getX() > engine.getWidth() - ((Puck) object).getRadius() + engine.getWidth() * ( 1.0/40.0)){
             newPosition.setX(engine.getWidth() - ((Puck) object).getRadius() + engine.getWidth() * (1.0/40.0));
             object.setXSpeed(0);
             object.setYSpeed(0);
-            System.out.println("[RightGoal:] I touched the back of the right goal!");
-            //engine.homeGoal();
             engine.setPuckIsInRightGoal(true);
             return false;
         }
@@ -203,25 +189,19 @@ public class AirHockeyBoundaryCheck extends BoundaryCheck{
         double xDistanceTravelled = engine.getWidth() - oldX;
         double yGoalLineIntersection = oldY + (object.getYSpeed()/ object.getXSpeed()) * xDistanceTravelled;
         double xGoalLineIntersection = 0;
-        Position goalLinePuckPosition = new Position(xGoalLineIntersection, yGoalLineIntersection);
         Position upperPostPosition = new Position(0, engine.getHeight() * (1.0/4.0));
         Position lowerPostPosition = new Position(0, engine.getHeight() * (3.0/4.0));
-        //System.out.println("oldPosition: " + object.getPosition());
-        //System.out.println("goalLineIntersectionPosition: " + goalLinePuckPosition);
-        //System.out.println("upperPostPosition: " + upperPostPosition);
-        //System.out.println("lowerPostPosition: " + lowerPostPosition);
         boolean isBehindGoalLineAlready = false;
         if(oldX < 0) isBehindGoalLineAlready = true;
         if(!isBehindGoalLineAlready){
             if(oldY > lowerPostPosition.getY() - ((Puck) object).getRadius() &&
                     newPosition.getY() > lowerPostPosition.getY() - ((Puck) object).getRadius()){
-                System.out.println("[LeftGoal:] Puck is touching the lower left post or above!");
                 return true;
             }
             if(oldY < upperPostPosition.getY() + ((Puck) object).getRadius() &&
                     newPosition.getY() < upperPostPosition.getY() + ((Puck) object).getRadius()){
                 //System.out.println("oldY: " + oldY + ", newY: " + newPosition.getY() + " upperPostY: " + upperPostPosition.getY());
-                System.out.println("[LeftGoal:] Puck is touching the upper post or above!");
+                //System.out.println("[LeftGoal:] Puck is touching the upper post or above!");
                 return true;
             }
         }
@@ -235,14 +215,12 @@ public class AirHockeyBoundaryCheck extends BoundaryCheck{
             }
             double newX = newPosition.getX() + xDelta;
             double newY = newPosition.getY() + yDelta;
-            //newPosition = new Position(newX, newY);
             newPosition.setX(newX);
             newPosition.setY(newY);
             // direction
             // x stays the same
             double newYDir = object.getYSpeed() * -1.0;
             object.setYSpeed(newYDir);
-            System.out.println("[LeftGoal:] I am touching the upper inside of the goal!");
             return false;
         }
         // lower
@@ -261,15 +239,12 @@ public class AirHockeyBoundaryCheck extends BoundaryCheck{
             // x stays the same
             double newYDir = object.getYSpeed() * -1.0;
             object.setYSpeed(newYDir);
-            System.out.println("[LeftGoal:] I am touching the lower inside of the goal!");
             return false;
         }
         if(newPosition.getX() < ((Puck) object).getRadius() - engine.getWidth() * (1.0/40.0)){
             newPosition.setX(((Puck) object).getRadius() - engine.getWidth() * (1.0/40.0));
             object.setXSpeed(0);
             object.setYSpeed(0);
-            System.out.println("[LeftGoal:] I touched the back of the goal!");
-            //engine.awayGoal();
             engine.setPuckIsInLeftGoal(true);
             return false;
         }

@@ -1,10 +1,13 @@
 package enginespawns.airhockey;
 
 import engine.AnimationPanel;
+import engine.PhysicsEngine2D;
 import engine.objects.CircularObject;
 import engine.objects.PhysicalObject;
 import engine.objects.PhysicalObjectPair;
 import engine.physics.Direction;
+import enginespawns.airhockey.objects.CircularHockeyObject;
+import enginespawns.airhockey.team.TeamEnum;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -20,6 +23,8 @@ public class AirHockeyAnimationPanel extends AnimationPanel {
     Color goalRoofColor = new Color(180,230,160);
     Color goalPathwayColor = new Color(40, 40, 40);
     Color transparentColor = new Color(123,124,125);
+    Color basicPlayerDiscColor = new Color(30, 0, 40);
+    Color basicPlayerDiscHandleColor = new Color(30, 20, 60);
     int width;
     int height;
     double verticalBorderOffset = 1.0/6.0;
@@ -28,7 +33,7 @@ public class AirHockeyAnimationPanel extends AnimationPanel {
     double absoluteHorizontalBorderPixelOffset;
     protected BufferedImage goalOverlayImage;
 
-    public AirHockeyAnimationPanel(AirHockey engine, int width, int height){
+    public AirHockeyAnimationPanel(PhysicsEngine2D engine, int width, int height){
         super();
         this.width = width;
         this.height = height;
@@ -184,35 +189,43 @@ public class AirHockeyAnimationPanel extends AnimationPanel {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         //
-        //System.out.println("painting background image!");
         g2d.drawImage(backgroundImage, 0,0, backgroundImage.getWidth(), backgroundImage.getHeight(), null);
         // draw objects
         for(PhysicalObject po : engine.getObjects()){
-            CircularObject co = (CircularObject) po;
+            CircularHockeyObject co = (CircularHockeyObject) po;
             int xPos = (int)(Math.round(co.getPosition().getX() - co.getRadius()) + absoluteHorizontalBorderPixelOffset);
             int yPos = (int)(Math.round(co.getPosition().getY() - co.getRadius()) + absoluteVerticalBorderPixelOffset);
             g2d.setColor(co.getColor());
             g2d.fillOval(xPos, yPos, (int)co.getRadius() * 2, (int)co.getRadius() * 2);
             g2d.setColor(Color.BLACK);
             g2d.drawOval(xPos, yPos, (int)co.getRadius() * 2, (int)co.getRadius() * 2);
-            // draw direction vector
-            Direction directionVector = co.getDirectionVector();
-            double xEndOfVector = absoluteHorizontalBorderPixelOffset + co.getPosition().getX() + directionVector.getX() * co.getRadius();
-            double yEndOfVector = absoluteVerticalBorderPixelOffset + co.getPosition().getY() + directionVector.getY() * co.getRadius();
-            g2d.setColor(Color.BLACK);
-            g2d.drawLine((int)Math.round(co.getPosition().getX() + absoluteHorizontalBorderPixelOffset),
-                    (int)Math.round(co.getPosition().getY() + absoluteVerticalBorderPixelOffset),
-                    (int)Math.round(xEndOfVector), (int)Math.round(yEndOfVector));
-        }
-        // draw collision vectors
-        ArrayList<PhysicalObjectPair> collisionPairs = engine.getPhysicsManager().getCurrentCollisionPairs();
-        for(PhysicalObjectPair pair : collisionPairs) {
-            g2d.setColor(Color.RED);
-            g2d.drawLine((int) (Math.round(pair.getA().getPosition().getX()) + absoluteHorizontalBorderPixelOffset),
-                    (int) (Math.round(pair.getA().getPosition().getY()) + absoluteVerticalBorderPixelOffset),
-                    (int) (Math.round(pair.getB().getPosition().getX()) + absoluteHorizontalBorderPixelOffset),
-                    (int) (Math.round(pair.getB().getPosition().getY()) + absoluteVerticalBorderPixelOffset));
 
+            if(co.getTeamEnum() != TeamEnum.UNKNOWN){
+                // inner circle rim
+                double rimRatio = 1.0/10.0;
+                int innerRimXPos = (int)Math.round(xPos + co.getRadius() * rimRatio);
+                int innerRimYPos = (int)Math.round(yPos + co.getRadius() * rimRatio);
+                g2d.setColor(basicPlayerDiscColor);
+                g2d.fillOval(innerRimXPos, innerRimYPos,
+                        (int)Math.round(co.getRadius() * (2 - (2 * rimRatio))),
+                        (int)Math.round(co.getRadius() * (2 - (2 * rimRatio))));
+                g2d.setColor(Color.BLACK);
+                g2d.drawOval(innerRimXPos, innerRimYPos,
+                        (int)Math.round(co.getRadius() * 2 - (2 * rimRatio)),
+                        (int)Math.round(co.getRadius() * 2 - (2 * rimRatio)));
+                // handle
+                double handleRatio = 0.4;
+                int handleXPos = (int)Math.round(xPos + co.getRadius() * (1 - handleRatio));
+                int handleYPos = (int)Math.round(yPos + co.getRadius() * (1 - handleRatio) );
+                g2d.setColor(basicPlayerDiscHandleColor);
+                g2d.fillOval(handleXPos, handleYPos,
+                        (int)Math.round(co.getRadius() * ((2 * handleRatio))),
+                        (int)Math.round(co.getRadius() * ((2 * handleRatio))));
+                g2d.setColor(Color.BLACK);
+                g2d.drawOval(handleXPos, handleYPos,
+                        (int)Math.round(co.getRadius() * ((2 * handleRatio))),
+                        (int)Math.round(co.getRadius() * ((2 * handleRatio))));
+            }
         }
         // draw goal overlay
         g.drawImage(goalOverlayImage, 0, 0, null);

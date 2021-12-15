@@ -40,8 +40,7 @@ public class AnimationPanel extends JPanel{
     public void paint(Graphics g){
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-        //
-        //System.out.println("painting background image!");
+        // background image
         g2d.drawImage(backgroundImage, 0,0, backgroundImage.getWidth(), backgroundImage.getHeight(), null);
         // draw objects
         for(PhysicalObject po : engine.getObjects()){

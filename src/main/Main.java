@@ -26,7 +26,7 @@ public class Main {
         engine.addObject(co_5);
         engine.addObject(co_6);
         engine.addObject(co_7);
-        engine.start();
+        engine.run();
 
     }
 }
