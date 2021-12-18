@@ -15,7 +15,6 @@ import java.awt.*;
 
 public class NeuralNetworkPlayerStickDisc extends PlayerStickDisc {
     NeuralNetwork neuralNetwork;
-    AirHockey engine;
     double maxValue = 0;
     double minValue = 1;
 
@@ -68,5 +67,9 @@ public class NeuralNetworkPlayerStickDisc extends PlayerStickDisc {
 
     public void setEngine(AirHockey engine) {
         this.engine = engine;
+    }
+
+    public NeuralNetwork getNeuralNetwork(){
+        return neuralNetwork;
     }
 }

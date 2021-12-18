@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args){
         Logger.print("2DPhysicsEngine.");
-        PhysicsEngine2D engine = new PhysicsEngine2D();
+        PhysicsEngine2D engine = new PhysicsEngine2D(800, 400, true);
         CircularObject co = new CircularObject("Grün", new Position(100,50), 30, Color.GREEN);
         CircularObject co_2 = new CircularObject("Blau", new Position(240,200), 20, Color.BLUE);
         CircularObject co_3 = new CircularObject("Gelb", new Position(300,300), 20, Color.YELLOW);

@@ -33,12 +33,17 @@ public class AirHockeyMain {
 
         TrainingPlayerStickDisc trainingDisc = (TrainingPlayerStickDisc)airHockey.getPlayer_1();
         NeuralNetwork neuralNetwork = trainingDisc.getNeuralNetwork();
-        NeuralNetworkPlayerStickDisc disc_1 = new NeuralNetworkPlayerStickDisc("NeuralNetworkDisc",
+        NeuralNetworkPlayerStickDisc disc_1 = new NeuralNetworkPlayerStickDisc("NeuralNetworkDisc_1",
                 player1Position, 20, Color.BLUE, null,
                 neuralNetwork);
+        NeuralNetworkPlayerStickDisc disc_2 = new NeuralNetworkPlayerStickDisc("NeuralNetworkDisc_2",
+                player2Position, 20, Color.RED, null,
+                neuralNetwork);
         disc_1.setTeamEnum(TeamEnum.HOME);
-        AirHockey testGame = new AirHockey(disc_1, player_2, true);
+        disc_2.setTeamEnum(TeamEnum.AWAY);
+        AirHockey testGame = new AirHockey(disc_1, disc_2, true);
         disc_1.setEngine(testGame);
+        disc_2.setEngine(testGame);
         testGame.run();
 
 

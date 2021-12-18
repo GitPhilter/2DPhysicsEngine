@@ -1,4 +1,4 @@
-package enginespawns.airhockey;
+package enginespawns.airhockey.display;
 
 import engine.AnimationPanel;
 import engine.PhysicsEngine2D;
@@ -39,8 +39,8 @@ public class AirHockeyAnimationPanel extends AnimationPanel {
         this.height = height;
         this.absoluteVerticalBorderPixelOffset = width * horizontalBorderOffset;
         this.absoluteHorizontalBorderPixelOffset = height * verticalBorderOffset;
-        System.out.println("vertical pixel offset: " + absoluteVerticalBorderPixelOffset);
-        System.out.println("horizontal pixel offset: " + absoluteHorizontalBorderPixelOffset);
+        //System.out.println("vertical pixel offset: " + absoluteVerticalBorderPixelOffset);
+        //System.out.println("horizontal pixel offset: " + absoluteHorizontalBorderPixelOffset);
 
         this.engine = engine;
         setBackgroundImage();
@@ -114,7 +114,7 @@ public class AirHockeyAnimationPanel extends AnimationPanel {
 
     @Override
     protected void setBackgroundImage(){
-        System.out.println("Setting AirHockeyBackground image!");
+        //System.out.println("Setting AirHockeyBackground image!");
         backgroundImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics g = backgroundImage.getGraphics();
         //field

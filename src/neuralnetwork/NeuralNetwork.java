@@ -132,7 +132,7 @@ public class NeuralNetwork {
         return biasO;
     }
 
-    public double getlRate() {
+    public double getLRate() {
         return lRate;
     }
 }

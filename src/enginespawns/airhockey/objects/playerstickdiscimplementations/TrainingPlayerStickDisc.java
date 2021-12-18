@@ -42,7 +42,7 @@ public class TrainingPlayerStickDisc extends PlayerStickDisc {
         //System.out.println("xAcceleration set to:" + xAcceleration + ", yAcceleration set to: " + yAcceleration);
         applyAcceleration();
         dataGenerator.tick();
-        System.out.println("There are " + dataGenerator.getDataSets().size() + " dataSets so far!");
+        //System.out.println("There are " + dataGenerator.getDataSets().size() + " dataSets so far!");
     }
 
     public void setEngine(AirHockeyTraining engine){

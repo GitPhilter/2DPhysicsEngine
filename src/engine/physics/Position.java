@@ -10,6 +10,7 @@ public class Position {
     }
 
     public Position(Position position){
+        if(position == null) return;
         this.x = position.getX();
         this.y = position.getY();
     }

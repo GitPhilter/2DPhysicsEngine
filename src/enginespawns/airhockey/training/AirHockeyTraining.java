@@ -1,23 +1,13 @@
 package enginespawns.airhockey.training;
 
-import engine.PhysicsEngine2D;
 import engine.objects.PhysicalObject;
-import engine.physics.Position;
 import enginespawns.airhockey.AirHockey;
-import enginespawns.airhockey.AirHockeyEngineFrame;
-import enginespawns.airhockey.manager.implementations.AirHockeyPhysicsManager;
 import enginespawns.airhockey.objects.PlayerStickDisc;
-import enginespawns.airhockey.objects.Puck;
-import enginespawns.airhockey.objects.playerstickdiscimplementations.RandomMovementPlayerStickDisc;
 import enginespawns.airhockey.objects.playerstickdiscimplementations.TrainingPlayerStickDisc;
-import enginespawns.airhockey.team.TeamEnum;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class AirHockeyTraining extends AirHockey {
     // game
-    int numberOfTicksPerTraining = 10000;
+    int numberOfTicksPerTraining = 20000;
     int numberOfTrainings = 1000;
     int currentTick = 0;
     int currentTraining = 0;
@@ -52,7 +42,7 @@ public class AirHockeyTraining extends AirHockey {
             engineFrame.repaint();
         }
         ++currentTick;
-        System.out.println("AirHockeyTraining.tick() no. " + currentTick);
+        //System.out.println("AirHockeyTraining.tick() no. " + currentTick);
 
         if(currentTick >= numberOfTicksPerTraining) {
             currentTick = 0;

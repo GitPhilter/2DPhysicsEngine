@@ -23,8 +23,7 @@ public class AnimationPanel extends JPanel{
         this.engine = engine;
         setSize(engine.getWidth(),engine.getHeight());
         setVisible(true);
-        // delay: 17 ~ 60 fps, 42 ~ 24 fps
-
+        setBackgroundImage();
     }
 
     protected void setBackgroundImage(){
