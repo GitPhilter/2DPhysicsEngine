@@ -23,15 +23,18 @@ public class PhysicsEngine2D implements ActionListener {
     protected boolean running = false;
 
     public PhysicsEngine2D(){
+        System.out.println("PhysicsEngine2D: empty constructor called!");
         //
     }
 
     public PhysicsEngine2D(int width, int height, boolean isVisible){
+        System.out.println("PhysicsEngine2D: non-empty constructor called!");
         this.width = width;
         this.height = height;
         this.isVisible = isVisible;
         objects = new ArrayList<>();
         physicsManager = new PhysicsManager_2();
+        this.isVisible = isVisible;
         if(isVisible){
             engineFrame = new EngineFrame(this);
         } else {
@@ -40,6 +43,7 @@ public class PhysicsEngine2D implements ActionListener {
     }
 
     public void addObject(PhysicalObject object){
+        if(objects.contains(object)) return;
         objects.add(object);
     }
 
@@ -55,6 +59,7 @@ public class PhysicsEngine2D implements ActionListener {
     }
 
     public void run(){
+        System.out.println("PhysicsEngine2D.run()");
         running = true;
         int fps = 60;
         int nsPerFrame = (int)Math.round(1000000000.0 / fps);
@@ -95,5 +100,9 @@ public class PhysicsEngine2D implements ActionListener {
 
     public int getHeight() {
         return height;
+    }
+
+    public void kill(){
+        this.engineFrame.dispose();
     }
 }

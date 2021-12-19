@@ -2,6 +2,7 @@ package main;
 
 import engine.physics.Position;
 import enginespawns.airhockey.AirHockey;
+import enginespawns.airhockey.evolution.BasicHelpers;
 import enginespawns.airhockey.objects.PlayerStickDisc;
 import enginespawns.airhockey.objects.playerstickdiscimplementations.NeuralNetworkPlayerStickDisc;
 import enginespawns.airhockey.objects.playerstickdiscimplementations.RandomMovementPlayerStickDisc;
@@ -18,34 +19,14 @@ public class AirHockeyMain {
     public static void main(String[] args){
         Logger.print("AirHockey.");
 
-        // players
-        Position player1Position = new Position(800 * (1.0/8.0), 400 / 2.0);
-        TrainingPlayerStickDisc player_1 = new TrainingPlayerStickDisc("Player_1", player1Position, 20, Color.BLUE, null);
-        player_1.setTeamEnum(TeamEnum.HOME);
-
-        Position player2Position = new Position(800 * (7.0/8.0), 400 / 2.0);
-        RandomMovementPlayerStickDisc player_2 = new RandomMovementPlayerStickDisc("Player_2", player2Position, 20, Color.RED);
-        player_2.setTeamEnum(TeamEnum.AWAY);
-        AirHockeyTraining airHockey = new AirHockeyTraining(false, player_1, player_2);
-        player_1.setEngine(airHockey);
-        airHockey.run();
-
-
-        TrainingPlayerStickDisc trainingDisc = (TrainingPlayerStickDisc)airHockey.getPlayer_1();
-        NeuralNetwork neuralNetwork = trainingDisc.getNeuralNetwork();
-        NeuralNetworkPlayerStickDisc disc_1 = new NeuralNetworkPlayerStickDisc("NeuralNetworkDisc_1",
-                player1Position, 20, Color.BLUE, null,
-                neuralNetwork);
-        NeuralNetworkPlayerStickDisc disc_2 = new NeuralNetworkPlayerStickDisc("NeuralNetworkDisc_2",
-                player2Position, 20, Color.RED, null,
-                neuralNetwork);
+        RandomMovementPlayerStickDisc disc_1 = BasicHelpers.getStandardRandomMovementNetworkDisc();
         disc_1.setTeamEnum(TeamEnum.HOME);
+        disc_1.setPosition(new Position(100,200));
+        RandomMovementPlayerStickDisc disc_2 = BasicHelpers.getStandardRandomMovementNetworkDisc();
         disc_2.setTeamEnum(TeamEnum.AWAY);
-        AirHockey testGame = new AirHockey(disc_1, disc_2, true);
-        disc_1.setEngine(testGame);
-        disc_2.setEngine(testGame);
-        testGame.run();
-
+        disc_2.setPosition(new Position(700,200));
+        AirHockey airHockey = new AirHockey(disc_1, disc_2, true);
+        airHockey.playSingleMatch();
 
     }
 }

@@ -12,15 +12,15 @@ public class AirHockeyEngineFrame extends EngineFrame {
 
     public AirHockeyEngineFrame(AirHockey engine, int width, int height){
         super();
+        System.out.println("AirHockeyEngineFrame constructor called!");
         this.width = width;
         this.height = height;
         setSize(width, height + 100);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setUndecorated(true);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setUndecorated(true);
         setLayout(null);
         GraphicsConfiguration config = getGraphicsConfiguration();
         Rectangle bounds = config.getBounds();
-        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
         int x = (int)Math.round((bounds.width/2.0) - getWidth()/2.0);
         setLocation(x, 0);
         animationPanel = new AirHockeyAnimationPanel(engine, width, height);
@@ -37,4 +37,6 @@ public class AirHockeyEngineFrame extends EngineFrame {
         animationPanel.repaint();
         statsPanel.repaint();
     }
+
+
 }

@@ -3,6 +3,8 @@ package enginespawns.airhockey.evolution;
 import enginespawns.airhockey.evaluation.EvaluationInfo;
 import enginespawns.airhockey.evaluation.EvaluationInfoSort;
 import enginespawns.airhockey.evaluation.PlayerDiscEvaluation;
+import enginespawns.airhockey.evaluation.shootingrange.ShootingRange;
+import enginespawns.airhockey.objects.PlayerStickDisc;
 import enginespawns.airhockey.objects.playerstickdiscimplementations.NeuralNetworkPlayerStickDisc;
 import math.Matrix;
 import neuralnetwork.NeuralNetwork;
@@ -39,9 +41,10 @@ public final class Evolution {
             for(int i = 0; i < numberOfIndividualsPerGenerations; ++i){
                 int currentBestDiscIndex = (int)(i * fractionOfBestPickedPerGeneration);
                 if(i % (numberOfDiscsPickedPerGeneration) == 0){
-                    discs[i] = elite[currentBestDiscIndex].getDisc();
+                    discs[i] = (NeuralNetworkPlayerStickDisc) elite[currentBestDiscIndex].getDisc();
                 } else {
-                    NeuralNetwork randomChildNetwork = getRandomChild(elite[currentBestDiscIndex].getDisc().getNeuralNetwork());
+                    NeuralNetworkPlayerStickDisc nd = (NeuralNetworkPlayerStickDisc)elite[currentBestDiscIndex].getDisc();
+                            NeuralNetwork randomChildNetwork = getRandomChild(nd.getNeuralNetwork());
                     discs[i] = new NeuralNetworkPlayerStickDisc("EvolutionDisc_" + i, null, 20, Color.BLUE, null, randomChildNetwork);
                 }
 
@@ -56,7 +59,7 @@ public final class Evolution {
             System.out.println("The estimated time for the final " + generationsLeft + " generations is " + estimatedRemainingTime + " seconds.");
         }
         //
-        return evalInfos[0].getDisc();
+        return (NeuralNetworkPlayerStickDisc) evalInfos[0].getDisc();
     }
 
     public static NeuralNetworkPlayerStickDisc getDiscWithEvalGreaterThanByChance(int n){
@@ -74,7 +77,70 @@ public final class Evolution {
         return randomDisc;
     }
 
+    public static void getBestDiscVSShootingRange(){
+        double startTime = System.nanoTime();
+        NeuralNetworkPlayerStickDisc disc = new NeuralNetworkPlayerStickDisc("EvolutionDisc" , null, 20, Color.BLUE, null);
+        ShootingRange range = new ShootingRange(false);
+        int numberOfInfos = 1000;
+        EvaluationInfo[] infos = new EvaluationInfo[numberOfInfos];
+        for(int i = 0; i < infos.length; ++i){
+            infos[i] = range.getEvaluationOfPlayerDisc(disc);;
+        }
+        double finishTime = System.nanoTime();
+        double totalTime = finishTime - startTime;
+        double totalTimeInSeconds = Math.round(((double)totalTime / 1000000000.0) * 100.0) / 100.0;
+        System.out.println( numberOfInfos + " EvaluationsInfos were created in " + totalTimeInSeconds + " seconds!");
+    }
 
+    public static EvaluationInfo[] getBestFromRandomCreated(int numberOfDiscsCreated,
+                                                                          int numberOfBestDiscsReturned){
+        EvaluationInfo[] infos = new EvaluationInfo[numberOfDiscsCreated];
+        for(int i = 0; i < numberOfDiscsCreated; ++i){
+            NeuralNetworkPlayerStickDisc disc = new NeuralNetworkPlayerStickDisc("EvolutionDisc_" + i, null, 20, Color.BLUE, null);
+            infos[i] = getAverageOverNGamesVSShootingRange(disc, 4);
+        }
+        infos = EvaluationInfoSort.sort(infos);
+        EvaluationInfo[] elite = new EvaluationInfo[numberOfBestDiscsReturned];
+        for(int e = 0; e < elite.length; ++e){
+            elite[e] = infos[e];
+            System.out.println(elite[e]);
+        }
+        return elite;
+    }
+
+    public static EvaluationInfo getAverageOverNGamesVSShootingRange(PlayerStickDisc disc, int numberOfGames){
+        ShootingRange range = new ShootingRange(false);
+        double sum = 0;
+        for(int i = 0; i < numberOfGames; ++i){
+            //System.out.println("game on range no." + (i + 1));
+            EvaluationInfo temp = range.getEvaluationOfPlayerDisc(disc);
+            sum += temp.getEvaluationValue();
+        }
+        EvaluationInfo resultInfo = new EvaluationInfo(disc, sum / numberOfGames);
+        return resultInfo;
+    }
+
+    public static EvaluationInfo[] getAverageOverNGamesVSShootingRangeArray(PlayerStickDisc[] discs, int numberOfGames){
+        EvaluationInfo[] result = new EvaluationInfo[discs.length];
+        for(int i = 0; i < result.length; ++i){
+            result[i] = getAverageOverNGamesVSShootingRange(discs[i], numberOfGames);
+        }
+        return result;
+    }
+
+    public static PlayerStickDisc[] getBestFromEvaluationInfos(EvaluationInfo[] infos, int numberOfBestDiscs){
+        PlayerStickDisc[] bestDiscs = new PlayerStickDisc[numberOfBestDiscs];
+        infos = EvaluationInfoSort.sort(infos);
+        for(int i = 0; i < bestDiscs.length; ++i){
+            bestDiscs[i] = infos[i].getDisc();
+        }
+        return bestDiscs;
+    }
+
+    public static NeuralNetworkPlayerStickDisc getRandomChild(NeuralNetworkPlayerStickDisc parent){
+        return new NeuralNetworkPlayerStickDisc(parent.getName() + "_child", null,
+                (int)parent.getRadius(), parent.getColor(), null, getRandomChild(parent.getNeuralNetwork()));
+    }
 
     public static NeuralNetwork getRandomChild(NeuralNetwork parent){
         // weightsIH

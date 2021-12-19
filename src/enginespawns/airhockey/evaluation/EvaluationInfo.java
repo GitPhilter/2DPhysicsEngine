@@ -1,17 +1,18 @@
 package enginespawns.airhockey.evaluation;
 
+import enginespawns.airhockey.objects.PlayerStickDisc;
 import enginespawns.airhockey.objects.playerstickdiscimplementations.NeuralNetworkPlayerStickDisc;
 
 public class EvaluationInfo {
-    private NeuralNetworkPlayerStickDisc disc;
+    private PlayerStickDisc disc;
     private double evaluationValue;
 
-    public EvaluationInfo(NeuralNetworkPlayerStickDisc disc, double evaluationValue){
+    public EvaluationInfo(PlayerStickDisc disc, double evaluationValue){
         this.disc = disc;
         this.evaluationValue = evaluationValue;
     }
 
-    public NeuralNetworkPlayerStickDisc getDisc(){
+    public PlayerStickDisc getDisc(){
         return disc;
     }
 

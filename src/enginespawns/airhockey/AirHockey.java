@@ -28,9 +28,14 @@ public class AirHockey extends PhysicsEngine2D {
     // the assumption is, that maybe the puck gets stuck between a playerDisc and the walls eternally.
     // to prevent this from happening, after 600 ticks (equals 10 seconds in visible mode at 60 fps) in the same
     // half of the pitch, the puck will be reset to kickOff.
-    int currentTicksInSameHalf;
-    int maxTicksAllowedInHalf = 600;
-    TeamEnum previousPitchHalf;
+    protected int currentTicksInSameHalf;
+    protected int maxTicksAllowedInHalf = 600;
+    protected TeamEnum previousPitchHalf;
+
+    public AirHockey(){
+        System.out.println("AirHockey: empty constructor called!");
+        //
+    }
 
     public AirHockey(PlayerStickDisc player_1, PlayerStickDisc player_2){
         this(player_1, player_2, true);
@@ -38,12 +43,14 @@ public class AirHockey extends PhysicsEngine2D {
 
     public AirHockey(PlayerStickDisc player_1, PlayerStickDisc player_2, boolean isVisible){
         super();
+        System.out.println("AirHockey: constructor called!");
         this.width = 800;
         this.height = 400;
         this.isVisible = isVisible;
         objects = new ArrayList<>();
         physicsManager = new AirHockeyPhysicsManager();
         if (isVisible) {
+            System.out.println("AirHockey constructor: creating AirHockeyEngineFrame.");
             engineFrame = new AirHockeyEngineFrame(this, 1000, 600);
         } else {
             engineFrame = null;
@@ -54,14 +61,19 @@ public class AirHockey extends PhysicsEngine2D {
         //puck = new Puck(new Position(720, 200), 10, Color.WHITE);
         double randomXSpeed = Math.random() * 10 - 5;
         double randomYSpeed = Math.random() * 10 - 5;
-        puck.setXSpeed(1);
-        puck.setYSpeed(0);
+        puck.setXSpeed(randomXSpeed);
+        puck.setYSpeed(randomYSpeed);
         addObject(puck);
         // players
-        this.player_1 = player_1;
-        objects.add(player_1);
-        this.player_2 = player_2;
-        objects.add(player_2);
+        if(player_1 != null){
+            this.player_1 = player_1;
+            objects.add(player_1);
+        }
+        if(player_2 != null){
+            this.player_2 = player_2;
+            objects.add(player_2);
+        }
+
         // game
         homeGoals = 0;
         awayGoals = 0;
@@ -75,7 +87,6 @@ public class AirHockey extends PhysicsEngine2D {
     }
 
     public void tick(){
-        //Logger.print("This is AirHockey.tick()!");
         // call ticks to apply acceleration
         for(PhysicalObject po : objects){
             if(po.hasTick()){
@@ -103,9 +114,6 @@ public class AirHockey extends PhysicsEngine2D {
             currentTicksInSameHalf = 0;
         }
         previousPitchHalf = currentPitchHalf;
-        if(engineFrame != null){
-            engineFrame.repaint();
-        }
     }
 
     public GameResult playSingleMatch(){
@@ -210,5 +218,9 @@ public class AirHockey extends PhysicsEngine2D {
             if(puck.getPosition().getX() > midX) return TeamEnum.AWAY;
         }
         return TeamEnum.UNKNOWN;
+    }
+
+    public Puck getPuck() {
+        return puck;
     }
 }

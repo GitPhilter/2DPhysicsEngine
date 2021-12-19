@@ -15,11 +15,13 @@ public class AnimationPanel extends JPanel{
     protected BufferedImage backgroundImage;
 
     public AnimationPanel(){
+        System.out.println("AnimationPanel: empty constructor called!");
         //
     }
 
 
     public AnimationPanel(PhysicsEngine2D engine){
+        System.out.println("AnimationPanel: non-empty constructor called!");
         this.engine = engine;
         setSize(engine.getWidth(),engine.getHeight());
         setVisible(true);

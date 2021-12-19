@@ -35,19 +35,18 @@ public class AirHockeyAnimationPanel extends AnimationPanel {
 
     public AirHockeyAnimationPanel(PhysicsEngine2D engine, int width, int height){
         super();
+        System.out.println("AirHockeyAnimationPanel: constructor called!");
         this.width = width;
         this.height = height;
         this.absoluteVerticalBorderPixelOffset = width * horizontalBorderOffset;
         this.absoluteHorizontalBorderPixelOffset = height * verticalBorderOffset;
         //System.out.println("vertical pixel offset: " + absoluteVerticalBorderPixelOffset);
         //System.out.println("horizontal pixel offset: " + absoluteHorizontalBorderPixelOffset);
-
         this.engine = engine;
         setBackgroundImage();
         setGoalOverlayImage();
         setSize(width, height);
         setVisible(true);
-
     }
 
     protected void setGoalOverlayImage(){

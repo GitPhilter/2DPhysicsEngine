@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NeuralNetwork {
-
+    String name = "Unnamed NeuralNetwork";
     Matrix weightsIH, weightsHO, biasH, biasO;
     double lRate = 0.01;
 
@@ -134,5 +134,13 @@ public class NeuralNetwork {
 
     public double getLRate() {
         return lRate;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
